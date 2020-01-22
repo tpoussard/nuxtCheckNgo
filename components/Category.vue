@@ -9,27 +9,27 @@
 
         <v-list>
           <v-list-group
-            v-for="category in filteredCategories"
-            :key="category"
+            v-for="categoryName in filteredCategories"
+            :key="categoryName"
             no-action
           >
             <v-list-item slot="activator">
               <v-list-item-content>
                 <v-list-item-title class="categoryTitle">{{
-                  category
+                  categoryName
                 }}</v-list-item-title>
               </v-list-item-content>
 
               <DisplayCount
                 :allItems="items"
-                :singleCategory="category"
+                :singleCategory="categoryName"
                 :itemsChecked="checkedList"
               ></DisplayCount>
             </v-list-item>
 
             <Items
               :allItems="items"
-              :singleCategory="category"
+              :singleCategory="categoryName"
               :itemsChecked="checkedList"
             ></Items>
           </v-list-group>
@@ -62,8 +62,8 @@ export default {
 
   computed: {
     filteredCategories: function() {
-      // return [...new Set(this.items.map(item => item.category_name))]
-      return [...new Set(this.items.map((item) => item.key))]
+      // return [...new Set(this.items.map(category => category.category_name))]
+      return [...new Set(this.items.map((category) => category.key))]
     }
   },
 

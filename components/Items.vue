@@ -32,10 +32,10 @@ export default {
   computed: {
     filteredItems: function() {
       const singleCategory = this.singleCategory
-      const testItems = this.allItems.filter(function(item) {
-        return item.key === singleCategory
+      const testItems = this.allItems.filter(
+        (item) => item.key === singleCategory
         // return (item.category_name === singleCategory)
-      })
+      )
       return testItems[0].data.map((obj) => obj.key)
     }
   }

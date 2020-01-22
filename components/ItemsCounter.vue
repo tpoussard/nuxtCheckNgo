@@ -1,5 +1,5 @@
 <template>
-  <div class="ItemsCounter">{{ counter }}</div>
+  <div class="ItemsCounter">{{ counter }} / {{ liste.length }}</div>
 </template>
 
 <script>
@@ -22,18 +22,24 @@ export default {
   },
 
   computed: {
+    liste() {
+      return this.allItems
+        .filter(
+          (i) => i.key === this.singleCategory
+          // (i) => i.category_name === this.singleCategory
+          // écrire un test ici
+        )
+        .map((obj) => obj.data)[0]
+    },
     counter() {
-      const liste = this.allItems.filter(
-        (i) => i.category_name === this.singleCategory
-      )
       let countChecked = 0
-
-      for (let it = 0; it < liste.length; it++) {
-        if (this.itemsChecked.includes(liste[it].name)) {
+      for (let it = 0; it < this.liste.length; it++) {
+        // if (this.itemsChecked.includes(liste[it].name)) {
+        if (this.itemsChecked.includes(this.liste[it].key)) {
           countChecked += 1
         }
       }
-      return ` ${countChecked} / ${liste.length} `
+      return countChecked
     }
   }
 }
