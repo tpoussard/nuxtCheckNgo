@@ -1,6 +1,6 @@
 # nuxt_checkngo
 
-> My good Nuxt.js project
+> A first attempt to update a Vue.js project into Nuxt.js
 
 ## Build Setup
 
