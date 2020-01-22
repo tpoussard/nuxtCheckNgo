@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding: 0px 60px 0px 60px;">
     <div v-for="item in filteredItems" :key="item">
       <Itemrow :singleItem="item" :itemsChecked="itemsChecked"></Itemrow>
     </div>
@@ -14,7 +14,20 @@ export default {
   components: {
     Itemrow: itemrow
   },
-  props: ['singleCategory', 'allItems', 'itemsChecked'],
+  props: {
+    singleCategory: {
+      default: 'Waiting',
+      type: String
+    },
+    allItems: {
+      default: () => [],
+      type: Array
+    },
+    itemsChecked: {
+      default: () => [],
+      type: Array
+    }
+  },
 
   computed: {
     filteredItems: function() {

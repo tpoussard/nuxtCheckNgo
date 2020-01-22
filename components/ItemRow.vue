@@ -17,7 +17,16 @@
 <script>
 export default {
   name: 'Itemrow',
-  props: ['singleItem', 'itemsChecked'],
+  props: {
+    singleItem: {
+      default: 'Waiting',
+      type: String
+    },
+    itemsChecked: {
+      default: () => [],
+      type: Array
+    }
+  },
 
   data: () => {
     return {

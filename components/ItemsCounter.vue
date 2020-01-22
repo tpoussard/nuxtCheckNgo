@@ -6,7 +6,20 @@
 export default {
   name: 'Count',
 
-  props: ['allItems', 'singleCategory', 'itemsChecked'],
+  props: {
+    allItems: {
+      default: () => [],
+      type: Array
+    },
+    singleCategory: {
+      default: 'Waiting',
+      type: String
+    },
+    itemsChecked: {
+      default: () => [],
+      type: Array
+    }
+  },
 
   computed: {
     counter() {
