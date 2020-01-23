@@ -12,7 +12,7 @@ export default {
       type: Array
     },
     singleCategory: {
-      default: 'Waiting',
+      default: 'Waiting...',
       type: String
     },
     itemsChecked: {

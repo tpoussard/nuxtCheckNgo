@@ -16,7 +16,7 @@ export default {
   },
   props: {
     singleCategory: {
-      default: 'Waiting',
+      default: 'Waiting...',
       type: String
     },
     allItems: {
