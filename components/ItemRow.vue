@@ -43,17 +43,16 @@ export default {
 
   methods: {
     // ADDing items in localstorage if checked, and removing them if unchecked
-    checkingStatus: (itemName, listOfItemsChecked) => {
+    checkingStatus: function(itemName, listOfItemsChecked) {
       if (listOfItemsChecked.includes(itemName)) {
         const index = listOfItemsChecked.indexOf(itemName)
-        listOfItemsChecked.splice(index, 1) // delete 1 item on index 'index'
+        this.itemsChecked.splice(index, 1) // delete 1 item on index 'index'
       } else {
-        listOfItemsChecked.push(itemName)
+        this.itemsChecked.push(itemName)
       }
-
       localStorage.setItem(
         'checkedItem-storage',
-        JSON.stringify(listOfItemsChecked)
+        JSON.stringify(this.itemsChecked)
       )
     }
   }

@@ -40,10 +40,8 @@
 </template>
 
 <script>
-// import axios from 'axios'
 import ItemsList from './Items.vue'
 import ItemsCounter from './ItemsCounter.vue'
-const jsonData = require('../static/fr.json')
 
 export default {
   name: 'Category',
@@ -53,9 +51,16 @@ export default {
     DisplayCount: ItemsCounter
   },
 
-  data: () => {
+  props: {
+    data: {
+      default: () => {},
+      type: Object
+    }
+  },
+
+  data: function() {
     return {
-      items: [],
+      items: this.data.data,
       checkedList: []
     }
   },
@@ -66,25 +71,8 @@ export default {
       return [...new Set(this.items.map((category) => category.key))]
     }
   },
-
   mounted() {
-    // If no localstorage, fetch data with axios, create a localstorage, and store data
-    if (!localStorage.getItem('item-storage')) {
-      this.items = jsonData.categories
-      /*
-     axios
-       .get('http://checkngo.ighilr.fr/api/items/')
-       .then(res => (this.items = res.data))
-       .then(itemData => localStorage.setItem('item-storage', JSON.stringify(itemData)))
-    */
-      localStorage.setItem('item-storage', JSON.stringify(this.items))
-      localStorage.setItem(
-        'checkedItem-storage',
-        JSON.stringify(this.checkedList)
-      )
-    } else {
-      // If a localStorage exist, fetch data directly in this Storage
-      this.items = JSON.parse(localStorage.getItem('item-storage') || '[]')
+    if (localStorage.getItem('checkedItem-storage')) {
       this.checkedList = JSON.parse(
         localStorage.getItem('checkedItem-storage') || '[]'
       )
