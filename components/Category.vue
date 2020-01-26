@@ -21,14 +21,14 @@
               </v-list-item-content>
 
               <DisplayCount
-                :allItems="items"
+                :allItems="itemList.data"
                 :singleCategory="categoryName"
                 :itemsChecked="checkedList"
               ></DisplayCount>
             </v-list-item>
 
             <Items
-              :allItems="items"
+              :allItems="itemList.data"
               :singleCategory="categoryName"
               :itemsChecked="checkedList"
             ></Items>
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import ItemsList from './Items.vue'
 import ItemsCounter from './ItemsCounter.vue'
 
@@ -51,16 +52,8 @@ export default {
     DisplayCount: ItemsCounter
   },
 
-  props: {
-    data: {
-      default: () => {},
-      type: Object
-    }
-  },
-
   data: function() {
     return {
-      items: this.data.data,
       checkedList: []
     }
   },
@@ -68,8 +61,9 @@ export default {
   computed: {
     filteredCategories: function() {
       // return [...new Set(this.items.map(category => category.category_name))]
-      return [...new Set(this.items.map((category) => category.key))]
-    }
+      return [...new Set(this.itemList.data.map((category) => category.key))]
+    },
+    ...mapState(['itemList'])
   },
   mounted() {
     if (localStorage.getItem('checkedItem-storage')) {
