@@ -1,7 +1,11 @@
 <template>
   <div style="padding: 0px 60px 0px 60px;">
-    <div v-for="item in filteredItems" :key="item">
-      <Itemrow :singleItem="item" :itemsChecked="itemsChecked"></Itemrow>
+    <div v-for="item in categoryItems" :key="item.key">
+      <Itemrow
+        :singleItem="item.key"
+        :itemsChecked="itemsChecked"
+        @checkingStatus="checkingStatus"
+      ></Itemrow>
     </div>
   </div>
 </template>
@@ -15,11 +19,7 @@ export default {
     Itemrow: itemrow
   },
   props: {
-    singleCategory: {
-      default: 'Waiting...',
-      type: String
-    },
-    allItems: {
+    categoryItems: {
       default: () => [],
       type: Array
     },
@@ -29,14 +29,19 @@ export default {
     }
   },
 
-  computed: {
-    filteredItems: function() {
-      const singleCategory = this.singleCategory
-      const testItems = this.allItems.filter(
-        (item) => item.key === singleCategory
-        // return (item.category_name === singleCategory)
+  methods: {
+    // ADDing items in localstorage if checked, and removing them if unchecked
+    checkingStatus: function(itemName) {
+      if (this.itemsChecked.includes(itemName)) {
+        const index = this.itemsChecked.indexOf(itemName)
+        this.itemsChecked.splice(index, 1) // delete 1 item on index 'index'
+      } else {
+        this.itemsChecked.push(itemName)
+      }
+      localStorage.setItem(
+        'checkedItem-storage',
+        JSON.stringify(this.itemsChecked)
       )
-      return testItems[0].data.map((obj) => obj.key)
     }
   }
 }

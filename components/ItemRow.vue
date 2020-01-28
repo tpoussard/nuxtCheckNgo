@@ -8,7 +8,7 @@
       <v-checkbox
         :id="singleItem"
         v-model="selected"
-        @change="checkingStatus(singleItem, itemsChecked)"
+        @change="handleChange"
       ></v-checkbox>
     </v-list-item-action>
   </v-list-item>
@@ -42,18 +42,8 @@ export default {
   },
 
   methods: {
-    // ADDing items in localstorage if checked, and removing them if unchecked
-    checkingStatus: function(itemName, listOfItemsChecked) {
-      if (listOfItemsChecked.includes(itemName)) {
-        const index = listOfItemsChecked.indexOf(itemName)
-        this.itemsChecked.splice(index, 1) // delete 1 item on index 'index'
-      } else {
-        this.itemsChecked.push(itemName)
-      }
-      localStorage.setItem(
-        'checkedItem-storage',
-        JSON.stringify(this.itemsChecked)
-      )
+    handleChange: function() {
+      this.$emit('checkingStatus', this.singleItem)
     }
   }
 }

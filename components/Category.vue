@@ -9,28 +9,25 @@
 
         <v-list>
           <v-list-group
-            v-for="categoryName in filteredCategories"
-            :key="categoryName"
+            v-for="category in itemList.data"
+            :key="category.key"
             no-action
           >
             <v-list-item slot="activator">
               <v-list-item-content>
                 <v-list-item-title class="categoryTitle">{{
-                  categoryName
+                  category.key
                 }}</v-list-item-title>
               </v-list-item-content>
 
-              <DisplayCount
-                :allItems="itemList.data"
-                :singleCategory="categoryName"
-                :itemsChecked="checkedList"
-              ></DisplayCount>
+              <div class="ItemsCounter">
+                {{ counter(category.data) }} / {{ category.data.length }}
+              </div>
             </v-list-item>
 
             <Items
-              :allItems="itemList.data"
-              :singleCategory="categoryName"
-              :itemsChecked="checkedList"
+              :categoryItems="category.data"
+              :itemsChecked="itemsChecked"
             ></Items>
           </v-list-group>
         </v-list>
@@ -42,37 +39,48 @@
 <script>
 import { mapState } from 'vuex'
 import ItemsList from './Items.vue'
-import ItemsCounter from './ItemsCounter.vue'
 
 export default {
   name: 'Category',
 
   components: {
-    Items: ItemsList,
-    DisplayCount: ItemsCounter
+    Items: ItemsList
   },
 
   data: function() {
     return {
-      checkedList: []
+      itemsChecked: []
     }
   },
 
   computed: {
-    filteredCategories: function() {
-      // return [...new Set(this.items.map(category => category.category_name))]
-      return [...new Set(this.itemList.data.map((category) => category.key))]
-    },
     ...mapState(['itemList'])
   },
+
   mounted() {
     if (localStorage.getItem('checkedItem-storage')) {
-      this.checkedList = JSON.parse(
+      this.itemsChecked = JSON.parse(
         localStorage.getItem('checkedItem-storage') || '[]'
       )
+    }
+  },
+
+  methods: {
+    counter(categoryData) {
+      let countChecked = 0
+      for (const item of categoryData) {
+        if (this.itemsChecked.includes(item.key)) {
+          countChecked += 1
+        }
+      }
+      return countChecked
     }
   }
 }
 </script>
 
-<style></style>
+<style>
+.ItemsCounter {
+  color: gray;
+}
+</style>
