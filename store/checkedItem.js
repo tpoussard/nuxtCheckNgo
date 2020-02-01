@@ -3,7 +3,6 @@ export const state = () => ({
 })
 export const mutations = {
   INIT_CHECKED(state, items) {
-    // add a check it array
     state.data = items
   },
   ADD_CHECKED(state, itemName) {
@@ -17,6 +16,10 @@ export const mutations = {
 
 export const actions = {
   initChecked: (store, items) => {
+    // check is array
+    if (!Array.isArray(items)) {
+      items = []
+    }
     store.commit('INIT_CHECKED', items)
   },
   addChecked: (store, item) => {

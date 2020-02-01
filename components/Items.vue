@@ -4,7 +4,6 @@
       <Itemrow
         :singleItem="item.key"
         :itemsChecked="checkedItem.data"
-        @checkStatus="checkingStatus"
       ></Itemrow>
     </div>
   </div>
@@ -28,21 +27,6 @@ export default {
 
   computed: {
     ...mapState(['checkedItem'])
-  },
-
-  methods: {
-    // ADDing items in localstorage if checked, and removing them if unchecked
-    checkingStatus: function(itemName) {
-      /* if (this.checkedItem.data.includes(itemName)) {
-        this.removeChecked(itemName)
-      } else {
-        this.addChecked(itemName)
-      } */
-      localStorage.setItem(
-        'checkedItem-storage',
-        JSON.stringify(this.checkedItem.data)
-      )
-    }
   }
 }
 </script>

@@ -5,7 +5,11 @@
     </v-list-item-content>
 
     <v-list-item-action>
-      <v-checkbox :id="singleItem" v-model="selected"></v-checkbox>
+      <v-checkbox
+        :id="singleItem"
+        v-model="selected"
+        @change="handleChange"
+      ></v-checkbox>
     </v-list-item-action>
   </v-list-item>
 </template>
