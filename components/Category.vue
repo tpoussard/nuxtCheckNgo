@@ -25,7 +25,7 @@
               </div>
             </v-list-item>
 
-            <Items :categoryItems="category.data"></Items>
+            <Items :category-items="category.data"></Items>
           </v-list-group>
         </v-list>
       </v-card>

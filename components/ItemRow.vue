@@ -43,15 +43,18 @@ export default {
       addChecked: 'checkedItem/addChecked',
       removeChecked: 'checkedItem/removeChecked'
     }),
-    handleChange: function() {
+    toStorage: function() {
       const checkedData = [...this.$store.getters['checkedItem/getState']]
-      checkedData.push(this.singleItem)
       localStorage.setItem('checkedItem-storage', JSON.stringify(checkedData))
-      if (this.selected) {
+    },
+    handleChange: function() {
+      const includeChecked = this.$store.getters['checkedItem/includeChecked']
+      if (!includeChecked(this.singleItem)) {
         this.addChecked(this.singleItem)
       } else {
         this.removeChecked(this.singleItem)
       }
+      this.toStorage()
     }
   }
 }
