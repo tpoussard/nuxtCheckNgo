@@ -46,8 +46,7 @@ export default {
 
   computed: {
     ...mapState({
-      itemList: 'itemList',
-      checkedItem: 'checkedItem'
+      itemList: 'itemList'
     })
   },
 
@@ -57,7 +56,6 @@ export default {
         localStorage.getItem('checkedItem-storage') || '[]'
       )
       this.initChecked(checked)
-      // console.log(this.checkedItem.data)
       this.itemsChecked = JSON.parse(
         localStorage.getItem('checkedItem-storage') || '[]'
       )
@@ -68,16 +66,8 @@ export default {
     ...mapActions({
       initChecked: 'checkedItem/initChecked'
     }),
-
     counter(categoryData) {
-      let countChecked = 0
-      for (const item of categoryData) {
-        // to pass inside store getter
-        if (this.checkedItem.data.includes(item.key)) {
-          countChecked += 1
-        }
-      }
-      return countChecked
+      return this.$store.getters['checkedItem/counter'](categoryData)
     }
   }
 }

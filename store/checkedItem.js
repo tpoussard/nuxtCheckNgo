@@ -31,6 +31,15 @@ export const actions = {
 }
 
 export const getters = {
+  getState: (state) => state.data,
   includeChecked: (state) => (itemName) => state.data.includes(itemName),
-  getState: (state) => state.data
+  counter: (state) => (categoryData) => {
+    let countChecked = 0
+    for (const item of categoryData) {
+      if (state.data.includes(item.key)) {
+        countChecked += 1
+      }
+    }
+    return countChecked
+  }
 }
