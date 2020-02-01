@@ -3,14 +3,15 @@
     <div v-for="item in categoryItems" :key="item.key">
       <Itemrow
         :singleItem="item.key"
-        :itemsChecked="itemsChecked"
-        @checkingStatus="checkingStatus"
+        :itemsChecked="checkedItem.data"
+        @checkStatus="checkingStatus"
       ></Itemrow>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import itemrow from './ItemRow'
 
 export default {
@@ -22,25 +23,24 @@ export default {
     categoryItems: {
       default: () => [],
       type: Array
-    },
-    itemsChecked: {
-      default: () => [],
-      type: Array
     }
+  },
+
+  computed: {
+    ...mapState(['checkedItem'])
   },
 
   methods: {
     // ADDing items in localstorage if checked, and removing them if unchecked
     checkingStatus: function(itemName) {
-      if (this.itemsChecked.includes(itemName)) {
-        const index = this.itemsChecked.indexOf(itemName)
-        this.itemsChecked.splice(index, 1) // delete 1 item on index 'index'
+      /* if (this.checkedItem.data.includes(itemName)) {
+        this.removeChecked(itemName)
       } else {
-        this.itemsChecked.push(itemName)
-      }
+        this.addChecked(itemName)
+      } */
       localStorage.setItem(
         'checkedItem-storage',
-        JSON.stringify(this.itemsChecked)
+        JSON.stringify(this.checkedItem.data)
       )
     }
   }

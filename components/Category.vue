@@ -25,10 +25,7 @@
               </div>
             </v-list-item>
 
-            <Items
-              :categoryItems="category.data"
-              :itemsChecked="itemsChecked"
-            ></Items>
+            <Items :categoryItems="category.data"></Items>
           </v-list-group>
         </v-list>
       </v-card>
@@ -37,7 +34,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import ItemsList from './Items.vue'
 
 export default {
@@ -47,18 +44,20 @@ export default {
     Items: ItemsList
   },
 
-  data: function() {
-    return {
-      itemsChecked: []
-    }
-  },
-
   computed: {
-    ...mapState(['itemList'])
+    ...mapState({
+      itemList: 'itemList',
+      checkedItem: 'checkedItem'
+    })
   },
 
   mounted() {
     if (localStorage.getItem('checkedItem-storage')) {
+      const checked = JSON.parse(
+        localStorage.getItem('checkedItem-storage') || '[]'
+      )
+      this.initChecked(checked)
+      // console.log(this.checkedItem.data)
       this.itemsChecked = JSON.parse(
         localStorage.getItem('checkedItem-storage') || '[]'
       )
@@ -66,10 +65,15 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      initChecked: 'checkedItem/initChecked'
+    }),
+
     counter(categoryData) {
       let countChecked = 0
       for (const item of categoryData) {
-        if (this.itemsChecked.includes(item.key)) {
+        // to pass inside store getter
+        if (this.checkedItem.data.includes(item.key)) {
           countChecked += 1
         }
       }

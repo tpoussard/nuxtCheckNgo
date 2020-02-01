@@ -5,26 +5,20 @@
     </v-list-item-content>
 
     <v-list-item-action>
-      <v-checkbox
-        :id="singleItem"
-        v-model="selected"
-        @change="handleChange"
-      ></v-checkbox>
+      <v-checkbox :id="singleItem" v-model="selected"></v-checkbox>
     </v-list-item-action>
   </v-list-item>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Itemrow',
   props: {
     singleItem: {
       default: 'Waiting',
       type: String
-    },
-    itemsChecked: {
-      default: () => [],
-      type: Array
     }
   },
 
@@ -36,14 +30,24 @@ export default {
 
   // Loading checked items stored in localStorage
   mounted() {
-    if (this.itemsChecked.includes(this.singleItem)) {
-      this.selected = true
-    }
+    const includeChecked = this.$store.getters['checkedItem/includeChecked']
+    this.selected = includeChecked(this.singleItem)
   },
 
   methods: {
+    ...mapActions({
+      addChecked: 'checkedItem/addChecked',
+      removeChecked: 'checkedItem/removeChecked'
+    }),
     handleChange: function() {
-      this.$emit('checkingStatus', this.singleItem)
+      const checkedData = [...this.$store.getters['checkedItem/getState']]
+      checkedData.push(this.singleItem)
+      localStorage.setItem('checkedItem-storage', JSON.stringify(checkedData))
+      if (this.selected) {
+        this.addChecked(this.singleItem)
+      } else {
+        this.removeChecked(this.singleItem)
+      }
     }
   }
 }
